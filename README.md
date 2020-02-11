@@ -1,5 +1,5 @@
 ## Dartking System
-본 프로젝트는 React로 구현하는 프로젝트입니다.
+본 프로젝트는 React로 구현하는 dartking 관리 프로젝트입니다.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
