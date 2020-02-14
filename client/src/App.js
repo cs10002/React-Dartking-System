@@ -35,51 +35,72 @@ const styles = theme =>({
 // }
 
 // json 배열로 만들기
-const member = [
-  {
-      'id': 1,
-      'image': 'https://placeimg.com/64/64/any',
-      'name': '김시용',
-      'nicname': '불시용',
-      'age': '37',
-      'gender': '남자',
-      'vp': 16
-  } 
-  ,
-  {
-    'id': 2,
-    'image': 'https://placeimg.com/64/64/any',
-    'name': '서용태',
-    'nicname': '수용태',
-    'age': '33',
-    'gender': '남자',
-    'vp': 20
-  } 
-  ,
-  {
-    'id': 3,
-    'image': 'https://placeimg.com/64/64/any',
-    'name': '오태준',
-    'nicname': '오짱',
-    'age': '34',
-    'gender': '남자',
-    'vp': 30
-  } 
-  ,
-  {
-    'id': 4,
-    'image': 'https://placeimg.com/64/64/any',
-    'name': '이혜광',
-    'nicname': '혜광불패',
-    'age': '41',
-    'gender': '남자',
-    'vp': 31
-  } 
-
-]
+// const member = [
+//   {
+//       'id': 1,
+//       'image': 'https://placeimg.com/64/64/any',
+//       'name': '김시용',
+//       'nicname': '불시용',
+//       'age': '37',
+//       'gender': '남자',
+//       'vp': 16
+//   } 
+//   ,
+//   {
+//     'id': 2,
+//     'image': 'https://placeimg.com/64/64/any',
+//     'name': '서용태',
+//     'nicname': '수용태',
+//     'age': '33',
+//     'gender': '남자',
+//     'vp': 20
+//   } 
+//   ,
+//   {
+//     'id': 3,
+//     'image': 'https://placeimg.com/64/64/any',
+//     'name': '오태준',
+//     'nicname': '오짱',
+//     'age': '34',
+//     'gender': '남자',
+//     'vp': 30
+//   } 
+//   ,
+//   {
+//     'id': 4,
+//     'image': 'https://placeimg.com/64/64/any',
+//     'name': '이혜광',
+//     'nicname': '혜광불패',
+//     'age': '41',
+//     'gender': '남자',
+//     'vp': 31
+//   } 
+// ]
 
 // React DartKingList Start1
 class App extends Component{
+
+  state = {
+    members:''
+  }
+
+  // 이벤트 설정
+componentDidMount() {
+  this.callApi()
+  .then(res => this.setState({members: res}))
+  .catch(err => console.log(err));
+  }
+  
+
+
+callApi = async () => {
+    const response = await fetch('/api/members');
+    const body = await response.json();
+    return body;
+}
+    
+
+
   render(){
     const{classes } = this.props;
     return (
@@ -105,9 +126,10 @@ class App extends Component{
              </TableRow>
            </TableHead>
            <TableBody>
-            {member.map( i =>{
+             {/*테이블 List*/}
+            {this.state.members?this.state.members.map( i =>{
                 return <DartkingList key={i.id} id={i.id} name={i.name} nicname={i.nicname} image={i.image} age={i.age} vp={i.vp} gender={i.gender}/>
-              })} 
+              }):''} 
            </TableBody>
          </Table>
        </Paper>
