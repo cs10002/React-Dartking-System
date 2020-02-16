@@ -8,6 +8,7 @@ import TabTableBodyle from '@material-ui/core/TableBody'// 테이블바디
 import TableRow from '@material-ui/core/TableRow'       // 테이블 row
 import TableCell from '@material-ui/core/TableCell'     // 테이블 col  
 import TableBody from '@material-ui/core/TableBody';
+import CircularProgress from '@material-ui/core/CircularProgress' // 프로그래스바
 import { withStyles } from '@material-ui/core/styles';  // CSS 스타일 적용
 
 
@@ -20,7 +21,12 @@ const styles = theme =>({
   },
   table:{
     minWidth:1080
+  },
+  /* 프로그래스바 설정 */
+  progress:{
+      margin:theme.spacing.unit*2
   }
+
 });
 
 // json 만들기
@@ -81,18 +87,20 @@ const styles = theme =>({
 class App extends Component{
 
   state = {
-    members:''
+    members:'',
+    completed:0
   }
 
   // 이벤트 설정
 componentDidMount() {
-  this.callApi()
-  .then(res => this.setState({members: res}))
-  .catch(err => console.log(err));
+  
+  this.timer = setInterval(this.progress,20); // 0.02초마다 this.progress
+  // 서버호출
+  // this.callApi()
+  // .then(res => this.setState({members: res}))
+  // .catch(err => console.log(err));
   }
   
-
-
 callApi = async () => {
     const response = await fetch('/api/members');
     const body = await response.json();
@@ -100,9 +108,15 @@ callApi = async () => {
 }
     
 
+progress = ()=>{
+  const {completed} = this.state;
+  this.setState({completed:completed>=100?0:completed+1});
+}
 
   render(){
-    const{classes } = this.props;
+    // 기본 props 설정
+    const{classes} = this.props;
+
     return (
       // list
          /*<DartkingList
@@ -127,9 +141,15 @@ callApi = async () => {
            </TableHead>
            <TableBody>
              {/*테이블 List*/}
-            {this.state.members?this.state.members.map( i =>{
+             {this.state.members?this.state.members.map( i =>{
                 return <DartkingList key={i.id} id={i.id} name={i.name} nicname={i.nicname} image={i.image} age={i.age} vp={i.vp} gender={i.gender}/>
-              }):''} 
+              }):                            
+              <TableRow>
+                <TableCell colSpan='6' align='center'>
+                  <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
+                </TableCell>
+              </TableRow>              
+            } 
            </TableBody>
          </Table>
        </Paper>
