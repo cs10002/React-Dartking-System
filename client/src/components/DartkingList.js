@@ -6,11 +6,13 @@ import TableCell from '@material-ui/core/TableCell' //  테이블 cell 만들기
 // dartKingList Component 
 class DartkingList extends React.Component{   
    render(){
-      const pr  = this.props;
+      
+      let pr  = this.props;  
+
        return(
           <TableRow>
-             <TableCell>{pr.id}</TableCell>                                {/* id */}
-             <TableCell><img src={pr.image} alt = "profile" /></TableCell> {/* image */}
+             <TableCell>{pr.seq}</TableCell>                                {/* id */}
+             <TableCell><img src={pr.image} alt = "profile" /></TableCell>  {/* image */}
              <TableCell>{pr.name}</TableCell>   {/* 이름  */}
              <TableCell>{pr.age}</TableCell>    {/* 나이  */}
              <TableCell>{pr.nicname}</TableCell>{/* 닉네임*/}

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
-import DartkingList from './components/DartkingList';   // List 
-import Paper from '@material-ui/core/Paper'             // 페이퍼 
-import Table from '@material-ui/core/Table'             // 테이블 
-import TableHead from '@material-ui/core/TableHead'     // 테이블 헤더
-import TabTableBodyle from '@material-ui/core/TableBody'// 테이블바디
-import TableRow from '@material-ui/core/TableRow'       // 테이블 row
-import TableCell from '@material-ui/core/TableCell'     // 테이블 col  
-import TableBody from '@material-ui/core/TableBody';
+import DartkingList from './components/DartkingList';             // List 
+import Paper from '@material-ui/core/Paper'                       // 페이퍼 
+import Table from '@material-ui/core/Table'                       // 테이블 
+import TableHead from '@material-ui/core/TableHead'               // 테이블 헤더
+import TabTableBodyle from '@material-ui/core/TableBody'          // 테이블바디
+import TableRow from '@material-ui/core/TableRow'                 // 테이블 row
+import TableCell from '@material-ui/core/TableCell'               // 테이블 col  
+import TableBody from '@material-ui/core/TableBody';              // 
 import CircularProgress from '@material-ui/core/CircularProgress' // 프로그래스바
-import { withStyles } from '@material-ui/core/styles';  // CSS 스타일 적용
-
+import { withStyles } from '@material-ui/core/styles';            // CSS 스타일 적용
 
 // 스타일적용
 const styles = theme =>({
@@ -26,7 +25,6 @@ const styles = theme =>({
   progress:{
       margin:theme.spacing.unit*2
   }
-
 });
 
 // json 만들기
@@ -93,17 +91,17 @@ class App extends Component{
 
   // 이벤트 설정
 componentDidMount() {
-  
   this.timer = setInterval(this.progress,20); // 0.02초마다 this.progress
   // 서버호출
-  // this.callApi()
-  // .then(res => this.setState({members: res}))
-  // .catch(err => console.log(err));
+  this.callApi()
+  .then(res => this.setState({members: res}))
+  .catch(err => console.log(err));
   }
   
 callApi = async () => {
     const response = await fetch('/api/members');
     const body = await response.json();
+    console.log(body);
     return body;
 }
     
@@ -142,7 +140,7 @@ progress = ()=>{
            <TableBody>
              {/*테이블 List*/}
              {this.state.members?this.state.members.map( i =>{
-                return <DartkingList key={i.id} id={i.id} name={i.name} nicname={i.nicname} image={i.image} age={i.age} vp={i.vp} gender={i.gender}/>
+                return <DartkingList key={i.seq} seq={i.seq} name={i.name} nicname={i.nicname} image={i.image} age={i.age} vp={i.vp} gender={i.gender}/>
               }):                            
               <TableRow>
                 <TableCell colSpan='6' align='center'>
