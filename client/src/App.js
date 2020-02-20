@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import DartkingList from './components/DartkingList';             // List 
+import DartKingListAdd from './components/DartkingListAdd';       // form
 import Paper from '@material-ui/core/Paper'                       // 페이퍼 
 import Table from '@material-ui/core/Table'                       // 테이블 
 import TableHead from '@material-ui/core/TableHead'               // 테이블 헤더
@@ -123,7 +124,8 @@ progress = ()=>{
            name={member.name}
            age={member.age}
            vp={member.vp}                  
-         />*/      
+         />*/ 
+       <div>
        <Paper>
          <Table className={classes.root}>{/* 테이블 */}
            <TableHead className={classes.table}> {/*테이블 헤더*/}
@@ -151,6 +153,8 @@ progress = ()=>{
            </TableBody>
          </Table>
        </Paper>
+       <DartKingListAdd/>
+       </div>
     );
   }
 }
