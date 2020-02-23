@@ -1,5 +1,5 @@
 import React from 'react';
-import {post} from 'axios'; // form post tag를 위한
+import {post} from 'axios'; 
 
 // DartKingListAdd  
 class DartkingListAdd extends React.Component{
