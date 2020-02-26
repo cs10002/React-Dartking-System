@@ -14,6 +14,9 @@
 # database
 /database.json
 
+# upload
+/upload
+
 # misc
 .DS_Store
 .env.local
