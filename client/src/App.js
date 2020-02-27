@@ -85,10 +85,29 @@ const styles = theme =>({
 // React DartKingList Start1
 class App extends Component{
 
-  state = {
-    members:'',
-    completed:0
+  constructor(props){
+    super(props);
+    this.state ={
+      members:'',
+      completed:0
+    }
   }
+
+  // 고객 목록 추가 이후에 새로고침 하는 과정을 구현하는 가장 대표적인 방법은 전체 고객을 불러오게함
+
+  /*  이벤트 시작  */
+  stateRefresh= () =>{
+    this.setState({
+      members:'',
+      completed:0,
+      searchKeyword: ''
+    });
+    this.callApi()
+      .then(res => this.setState({members: res}))
+      .catch(err => console.log(err));    
+  }
+
+
 
   // 이벤트 설정
 componentDidMount() {
@@ -153,7 +172,7 @@ progress = ()=>{
            </TableBody>
          </Table>
        </Paper>
-       <DartKingListAdd/>
+       <DartKingListAdd stateRefresh={this.stateRefresh}/>
        </div>
     );
   }

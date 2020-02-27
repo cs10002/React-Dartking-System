@@ -21,13 +21,14 @@ class DartkingListAdd extends React.Component{
         }
     }
 
-
 // form 셋팅
 handleFormSubmit=(e)=> {
    e.preventDefault()
    this.addDartKing()
    .then((response) => {
-   console.log(response.data);
+    console.log(response.data);
+    // 맴버추가 후 부모 함수 호출해서 다시 재조회 하기
+    this.props.stateRefresh();
    })
 
    this.setState({
@@ -42,10 +43,11 @@ handleFormSubmit=(e)=> {
     fileName:'',
     appgubn:''
    })
-   window.location.reload();
+   //window.location.reload();
+   
+
 }
     
-
 // 파일변경시
 handleFileChange=(e)=>{
  
