@@ -11,7 +11,7 @@ class DartkingList extends React.Component{
 
        return(
           <TableRow>
-             <TableCell>{pr.seq}</TableCell>                                {/* id */}
+             <TableCell>{pr.rn}</TableCell>                                {/* id */}
              <TableCell><img src={pr.image} alt = "profile" /></TableCell>  {/* image */}
              <TableCell>{pr.name}</TableCell>   {/* 이름  */}
              <TableCell>{pr.age}</TableCell>    {/* 나이  */}

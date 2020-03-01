@@ -28,7 +28,9 @@ connection.connect();
 app.get('/api/members',(req,res)=>{    
   let query = "SELECT  A.seq ,A.appgbn ,A.id ,A.auth ,A.name ,A.image ,A.nicname";
       query += ",FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.brdt,'.','') AS UNSIGNED)) / 10000 ) age";
-      query += ",IF (A.gender= '1','남자','여자')gender FROM MEMBERS A WHERE  A.isDeleted = 0";    
+      query += ",IF (A.gender= '1','남자','여자')gender , @rownum := @rownum+1 AS rn FROM MEMBERS A , (SELECT @rownum :=0) AS R WHERE  A.isDeleted = 0";   
+      
+      console.log(query);
    connection.query(query
      ,(err, rows, fields) => {
           res.send(rows);
@@ -36,11 +38,10 @@ app.get('/api/members',(req,res)=>{
   ) 
 });
 
-
 app.use('/image', express.static('../upload'));
 
 app.post('/api/members', upload.single('image'),(req, res) =>{
-   let sql    = 'INSERT INTO MEMBERS (seq , appgbn, id, pass, auth, name, image, nicname,brdt, gender, regDt, updDt) VALUES(null,?,?,?,?,?,?,?,?,?,now(),now())';   
+   let sql    = 'INSERT INTO MEMBERS (seq , appgbn, id, pass, auth, name, image, nicname,brdt, gender, regDt, updDt,createdDate,isDeleted) VALUES(null,?,?,?,?,?,?,?,?,?,now(),now(),now(),0)';   
    let appgbn    = 'a001';
    let id        = req.body.id;
    let pass      = req.body.pass;
@@ -54,7 +55,6 @@ app.post('/api/members', upload.single('image'),(req, res) =>{
    console.log(image);
    let params    =[appgbn,id,pass,auth,name,image,nicname,brdt,gender]
    
-   console.log(params);
    connection.query(sql,params,(err,rows,fields)=>{
      console.log(err);
       res.send(rows);
