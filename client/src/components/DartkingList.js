@@ -1,7 +1,7 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';  //  테이블 Row  만들기
-import TableCell from '@material-ui/core/TableCell' //  테이블 cell 만들기
-
+import TableCell from '@material-ui/core/TableCell'; //  테이블 cell 만들기
+import DartkingDelete from './DartkingDelete';
 
 // dartKingList Component 
 class DartkingList extends React.Component{   
@@ -18,6 +18,7 @@ class DartkingList extends React.Component{
              <TableCell>{pr.nicname}</TableCell>{/* 닉네임*/}
              <TableCell>{pr.gender}</TableCell> {/* 성별  */}
              <TableCell>{pr.vp}</TableCell>     {/* 승점  */}
+             <TableCell><DartkingDelete stateRefresh={pr.stateRefresh} id={pr.id}/></TableCell>
           </TableRow>
       )
    }

@@ -26,9 +26,9 @@ connection.connect();
 
     //REST API
 app.get('/api/members',(req,res)=>{    
-  let query = "SELECT A.seq ,A.appgbn ,A.id ,A.auth ,A.name ,A.image ,A.nicname";
+  let query = "SELECT  A.seq ,A.appgbn ,A.id ,A.auth ,A.name ,A.image ,A.nicname";
       query += ",FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.brdt,'.','') AS UNSIGNED)) / 10000 ) age";
-      query += ",IF (A.gender= '1','남자','여자')gender FROM MEMBERS A";    
+      query += ",IF (A.gender= '1','남자','여자')gender FROM MEMBERS A WHERE  A.isDeleted = 0";    
    connection.query(query
      ,(err, rows, fields) => {
           res.send(rows);
@@ -62,5 +62,17 @@ app.post('/api/members', upload.single('image'),(req, res) =>{
 
 });
 
+// 삭제 모듈
+app.delete('/api/members/:id', (req, res) => {
 
+  let sql = 'UPDATE MEMBERS SET isDeleted = 1 WHERE id = ?';
+
+  let params = [req.params.id];
+    connection.query(sql, params,
+    (err, rows, fields) => {
+    res.send(rows);
+    }
+   )
+  });
+  
 app.listen(port, () => console.log(`Listening on port ${port}`));

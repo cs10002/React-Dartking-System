@@ -125,7 +125,7 @@ callApi = async () => {
     return body;
 }
     
-
+//프로그래스 영역
 progress = ()=>{
   const {completed} = this.state;
   this.setState({completed:completed>=100?0:completed+1});
@@ -156,15 +156,16 @@ progress = ()=>{
               <TableCell>닉네임</TableCell>
               <TableCell>성별</TableCell>
               <TableCell>승점</TableCell>
+              <TableCell>설정</TableCell>
              </TableRow>
            </TableHead>
            <TableBody>
              {/*테이블 List*/}
              {this.state.members?this.state.members.map( i =>{
-                return <DartkingList key={i.seq} seq={i.seq} name={i.name} nicname={i.nicname} image={i.image} age={i.age} vp={i.vp} gender={i.gender}/>
+                return <DartkingList stateRefresh={this.stateRefresh}  key={i.seq} id={i.id} seq={i.seq} name={i.name} nicname={i.nicname} image={i.image} age={i.age} vp={i.vp} gender={i.gender}/>
               }):                            
               <TableRow>
-                <TableCell colSpan='6' align='center'>
+                <TableCell colSpan='7' align='center'>
                   <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
                 </TableCell>
               </TableRow>              
@@ -172,7 +173,7 @@ progress = ()=>{
            </TableBody>
          </Table>
        </Paper>
-       <DartKingListAdd stateRefresh={this.stateRefresh}/>
+       <DartKingListAdd stateRefresh={this.stateRefresh} />
        </div>
     );
   }
