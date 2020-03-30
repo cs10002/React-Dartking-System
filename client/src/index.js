@@ -12,6 +12,8 @@ const theme = createMuiTheme({
     },
 });
     
+
 // create-react-app step2
+//폰트설정
 ReactDOM.render(<MuiThemeProvider theme={theme}><App /></MuiThemeProvider>, document.getElementById('root'));
 serviceWorker.unregister();

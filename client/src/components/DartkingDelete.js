@@ -59,7 +59,7 @@ class DartkingDelete extends React.Component{
               </DialogContent>
               <DialogActions>
                 <Button variant="contained" color="primary" onClick={(e)=>{this.deleteMember(this.props.id)}}>삭제</Button>
-                <Button>닫기</Button>
+                <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
               </DialogActions>
             </Dialog>
           </div>

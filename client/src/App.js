@@ -4,13 +4,12 @@ import DartkingList from './components/DartkingList';             // List
 import DartKingListAdd from './components/DartkingListAdd';       // form
 import Paper from '@material-ui/core/Paper'                       // 페이퍼 
 import Table from '@material-ui/core/Table'                       // 테이블 
-import TableHead from '@material-ui/core/TableHead'               // 테이블 헤더
-import TabTableBodyle from '@material-ui/core/TableBody'          // 테이블바디
+import TableHead from '@material-ui/core/TableHead'               // 테이블 헤더         // 테이블바디
 import TableRow from '@material-ui/core/TableRow'                 // 테이블 row
 import TableCell from '@material-ui/core/TableCell'               // 테이블 col  
-import TableBody from '@material-ui/core/TableBody';              // 
+import TableBody from '@material-ui/core/TableBody';              // 테이블 body
 import CircularProgress from '@material-ui/core/CircularProgress' // 프로그래스바
-import { withStyles } from '@material-ui/core/styles';            // CSS 스타일 적용
+import { fade,withStyles,makeStyles } from '@material-ui/core/styles';            // CSS 스타일 적용
 
 // App bar
 import AppBar from '@material-ui/core/AppBar';
@@ -18,10 +17,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-
 
 // 스타일적용
 const styles = theme =>({
@@ -100,59 +97,6 @@ const styles = theme =>({
 
 });
 
-// json 만들기
-// const member = {
-//   'id': 1,
-//   'image': 'https://placeimg.com/64/64/any',
-//   'name': '김시용',
-//   'nicname': '불시용',
-//   'age': '37',
-//   'gender': '남자',
-//   'vp': 0
-// }
-
-// json 배열로 만들기
-// const member = [
-//   {
-//       'id': 1,
-//       'image': 'https://placeimg.com/64/64/any',
-//       'name': '김시용',
-//       'nicname': '불시용',
-//       'age': '37',
-//       'gender': '남자',
-//       'vp': 16
-//   } 
-//   ,
-//   {
-//     'id': 2,
-//     'image': 'https://placeimg.com/64/64/any',
-//     'name': '서용태',
-//     'nicname': '수용태',
-//     'age': '33',
-//     'gender': '남자',
-//     'vp': 20
-//   } 
-//   ,
-//   {
-//     'id': 3,
-//     'image': 'https://placeimg.com/64/64/any',
-//     'name': '오태준',
-//     'nicname': '오짱',
-//     'age': '34',
-//     'gender': '남자',
-//     'vp': 30
-//   } 
-//   ,
-//   {
-//     'id': 4,
-//     'image': 'https://placeimg.com/64/64/any',
-//     'name': '이혜광',
-//     'nicname': '혜광불패',
-//     'age': '41',
-//     'gender': '남자',
-//     'vp': 31
-//   } 
-// ]
 
 // React DartKingList Start1
 class App extends Component{
@@ -222,7 +166,7 @@ progress = ()=>{
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            다트킹 순위
+            FM 다트킹 순위
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -255,7 +199,7 @@ progress = ()=>{
            <TableBody>
              {/*테이블 List*/}
              {this.state.members?this.state.members.map( i =>{
-                return <DartkingList stateRefresh={this.stateRefresh} rn={i.rn} key={i.seq} id={i.id} seq={i.seq} name={i.name} nicname={i.nicname} image={i.image} age={i.age} vp={i.vp} gender={i.gender}/>
+                return <DartkingList stateRefresh={this.stateRefresh} rn={i.rn} key={i.seq} id={i.id} seq={i.seq} name={i.name} nicname={i.nicname} image={i.image} age={i.age} vp={i.vp} gender={i.gender} toDay={i.toDay}/>
               }):                            
               <TableRow>
                 <TableCell colSpan='7' align='center'>

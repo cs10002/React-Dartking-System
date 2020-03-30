@@ -24,12 +24,19 @@ const connection = mysql.createConnection({
 connection.connect();
 
 
-    //REST API
+//REST API
 app.get('/api/members',(req,res)=>{    
+
   let query = "SELECT  A.seq ,A.appgbn ,A.id ,A.auth ,A.name ,A.image ,A.nicname";
-      query += ",FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.brdt,'.','') AS UNSIGNED)) / 10000 ) age";
-      query += ",IF (A.gender= '1','남자','여자')gender , @rownum := @rownum+1 AS rn FROM MEMBERS A , (SELECT @rownum :=0) AS R WHERE  A.isDeleted = 0";   
-      
+      query += "      ,FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.brdt,'.','') AS UNSIGNED)) / 10000 ) age";
+      query += "      ,IF (A.gender= '1','남자','여자')gender "; 
+      query += "      ,IFNULL(SUM(B.VP),0) vp";       
+      query += "      ,DATE_FORMAT(now(), '%Y%m%d')toDay";       
+      query += "      ,@rownum := @rownum+1 AS rn ";    
+      query += " FROM MEMBERS A LEFT OUTER JOIN MEMBERS_VP B ON A.appgbn = B.appgbn  AND A.id = B.id ,(SELECT @rownum :=0) AS R ";
+      query += " WHERE  A.isDeleted = 0"; 
+      query += " GROUP BY A.seq ,A.appgbn,A.id,A.auth,A.name,A.nicname,A.image,A.gender";
+      query += " ORDER BY VP DESC";     
       console.log(query);
    connection.query(query
      ,(err, rows, fields) => {
@@ -74,5 +81,64 @@ app.delete('/api/members/:id', (req, res) => {
     }
    )
   });
-  
+
+  app.get('/api/members/:id/:vp', (req, res) => {
+
+    let sql = 'INSERT INTO MEMBERS_VP (seq,appgbn,id,vp_gbcd,vp_dt,vp,regDt,updDt) VALUES(null,?,?,?,now(),?,now(),now())';
+    let appgbn    = 'a001';
+    let id        = req.params.id;
+    let vp        = req.params.vp;
+    let vp_gbcd   = 'vp01';
+    let params    = [appgbn,id,vp_gbcd,vp];
+
+     console.log(params);
+     console.log(sql);
+
+
+      connection.query(sql, params,
+      (err, rows, fields) => {
+
+        console.log(err); 
+      res.send(rows);
+      }
+     )
+    });
+
+//REST API
+app.get('/api/vplist/:id/:date/:vp_gbcd',(req,res)=>{    
+
+  let query  =  "SELECT  A.SEQ,A.id                                ";
+      query +=  "       ,CASE WHEN A.VP =5                         ";
+      query +=  "        THEN 'VERY GOOD'                          ";
+      query +=  "        WHEN  A.vp =3                        ";
+      query +=  "        THEN 'GOOD'                               ";
+      query +=  "        WHEN  A.vp =1                        ";
+      query +=  "        THEN 'NORMAL'                             ";
+      query +=  "        WHEN  A.vp =0                        ";
+      query +=  "        THEN 'BAD' END AS vp_name                 ";
+      query +=  "       ,A.vp                                      ";
+      query += "        ,@rownum := @rownum+1 AS rn                ";    
+      query +=  "  FROM MEMBERS_VP A  ,(SELECT @rownum :=0) AS R   ";
+      query +=  "WHERE A.appgbn   = ?                              ";
+      query +=  "  AND A.id       = ?                              ";
+      query +=  "  AND A.vp_gbcd  = ?                              ";
+      query +=  "  AND A.vp_dt  = DATE_FORMAT(?,'%Y%m%d')          ";
+      query +=  "ORDER BY A.SEQ ASC , A.regDt DESC                 ";  
+
+
+  let appgbn    = 'a001';
+  let id        = req.params.id;
+  let vp_gbcd   = req.params.vp_gbcd;
+  let date      = req.params.date;
+  let params    = [appgbn,id,vp_gbcd,date];
+
+   console.log(query);
+   connection.query(query,params
+     ,(err, rows, fields) => {
+          res.send(rows);
+    }
+  ) 
+});
+
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
